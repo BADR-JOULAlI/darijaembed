@@ -1,0 +1,37 @@
+[build-system]
+requires = ["hatchling>=1.26,<2"]
+build-backend = "hatchling.build"
+
+[project]
+name = "darijaembed"
+version = "0.1.0"
+description = "Reproducible sentence embedding experiments for Moroccan Darija"
+readme = "README.md"
+requires-python = ">=3.11"
+license = "MIT"
+dependencies = []
+
+[project.optional-dependencies]
+ml = [
+  "sentence-transformers[train]>=5.1,<6",
+  "datasets>=4,<5",
+  "torch>=2.8,<3",
+  "numpy>=1.26,<3",
+  "scipy>=1.13,<2",
+]
+dev = ["pytest>=8,<10", "ruff>=0.11,<1", "numpy>=1.26,<3", "scipy>=1.13,<2"]
+
+[project.scripts]
+darijaembed = "darijaembed.cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/darijaembed"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]

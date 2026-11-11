@@ -1,0 +1,40 @@
+# Synthetic fixtures only; prepare works without any ML dependencies or network.
+seed = 42
+output_dir = "../runs/local"
+
+[model]
+name = "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2"
+max_seq_length = 128
+device = "cpu"
+
+[dataset]
+path = "../tests/fixtures/pairs.jsonl"
+format = "jsonl"
+role = "train"
+[dataset.columns]
+anchor = "anchor"
+positive = "positive"
+
+[training]
+batch_size = 2
+gradient_accumulation_steps = 1
+max_steps = 2
+warmup_steps = 0
+precision = "no"
+validation_fraction = 0.25
+logging_steps = 1
+eval_steps = 1
+gradient_checkpointing = false
+
+[evaluation]
+batch_size = 2
+score_min = 0.0
+score_max = 1.0
+[evaluation.dataset]
+path = "../tests/fixtures/sts.jsonl"
+format = "jsonl"
+role = "test"
+[evaluation.dataset.columns]
+sentence1 = "sentence1"
+sentence2 = "sentence2"
+score = "score"

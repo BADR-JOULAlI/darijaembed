@@ -1,0 +1,30 @@
+# 100-step technical check, not a research result.
+seed = 42
+output_dir = "../runs/smoke"
+
+[model]
+name = "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2"
+max_seq_length = 128
+device = "auto"
+
+[dataset]
+path = "OiQ/daa-pairs"
+split = "train"
+format = "huggingface"
+max_samples = 10000
+role = "train"
+[dataset.columns]
+anchor = "arabic"
+positive = "arabizi"
+
+[training]
+batch_size = 16
+gradient_accumulation_steps = 2
+learning_rate = 2e-5
+max_steps = 100
+warmup_steps = 10
+precision = "auto"
+validation_fraction = 0.1
+logging_steps = 10
+eval_steps = 25
+gradient_checkpointing = true
