@@ -23,3 +23,18 @@ jobs:
       - run: ruff format --check .
       - run: pytest -q
       - run: darijaembed prepare --config configs/local.toml
+
+  ml-integration:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: python -m pip install torch --index-url https://download.pytorch.org/whl/cpu
+      - run: python -m pip install -e '.[ml,dev]'
+      - run: pytest -q tests/test_pipeline_integration.py
+        env:
+          DARIJAEMBED_RUN_ML_TESTS: "1"
+          HF_HUB_OFFLINE: "1"
+          TRANSFORMERS_OFFLINE: "1"

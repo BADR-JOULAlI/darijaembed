@@ -148,5 +148,15 @@ pytest -q
 ```
 
 La CI exécute les tests sur Python 3.11 et 3.12 sans télécharger de modèle.
-Les tests unitaires ML utilisent des doubles ; la disponibilité réelle de CUDA
-et la qualité du modèle se vérifient avec une expérience séparée.
+Les tests unitaires ML utilisent des doubles. Un job CPU séparé vérifie aussi
+la préparation, l'évaluation, deux étapes d'entraînement et le rechargement
+avec un petit Transformer aléatoire créé localement. Il ne mesure pas la qualité
+linguistique. Pour exécuter ce test avec les dépendances ML installées :
+
+```bash
+# PowerShell : $env:DARIJAEMBED_RUN_ML_TESTS = "1"
+DARIJAEMBED_RUN_ML_TESTS=1 pytest -q tests/test_pipeline_integration.py
+```
+
+La disponibilité réelle de CUDA et la qualité du modèle se vérifient avec une
+expérience séparée.
